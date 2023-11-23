@@ -1,0 +1,185 @@
+﻿index,first_message,结果截图,"参考答案
+（可以贴周报内容，或图表）",logic,数据集,"查询/分析逻辑
+（可以贴可视化查询链接）",自动化评测,业务,题目类型, 难度,召回字段,time,数据过合规,指定数据集ID,更新时间
+301,统计日期2023-10-29，统计这一天的云仓工单创建单量,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-PJqzdK2b,,云仓客服工单明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-PJqzdK2b,否,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2106716,2023/11/10
+302,最近一天云仓发货慢CCR明细,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-7OkBPALV,"1. 获取当前日期的前一天作为最近一天的日期
+2. 从`云仓商家物流CCR明细`表中筛选出`统计日期`为最近一天且`CCR四级标签`为'发货慢'的数据
+3. 执行SQL语句，获取数据",云仓商家物流CCR明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-7OkBPALV,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,1270060,2023/11/10
+304,最近一天商家ID=54507770的物流CCR,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-mLXvKlJn,"1. 获取当前日期的前一天作为最近一天的日期
+2. 从`云仓商家物流CCR明细`表中筛选出`统计日期` = '{date}' AND `商家id` = {seller_id}的数据
+3. 计算物流CCR，方法是统计`物流CCR_1`的唯一值数量除以`order_id`的唯一值数量
+4. 输出最近一天（{last_day}）商家ID=54507770的物流CCR",云仓商家物流CCR明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-mLXvKlJn,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,1270060,2023/11/10
+306,最近一天云仓发货慢ccr反馈单量,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182574808&sid=1270060,,云仓商家物流CCR明细,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182574808&sid=1270060,否,电商,指标查询与统计,简单,,2023/10/31 12:00,否,1270060,2023/11/10
+307,最近一天物流履约问题负向反馈订单量,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGxeN2b,"1. 获取当前时间的前一天的开始时间和结束时间
+2. 从`云仓商家物流CCR明细`表中筛选出 `14日有效物流负向反馈-分类` = '物流履约问题' 并且 `统计日期` 在前一天的时间范围内的数据，计算`物流负向反馈订单量_物流履约问题`的数量
+3. 输出最近一天物流履约问题负向反馈订单量和时间范围",云仓商家物流CCR明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGxeN2b,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,1270060,2023/11/10
+308,最近一天的物流ccr拦截率,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGxeN2b,"1. 定义最近一天的开始时间和结束时间
+2. 从`云仓商家物流CCR明细`表中筛选出 `是否拦截` = 1 AND `统计日期` >= '{start_time}' AND `统计日期` <= '{end_time}' 的数据
+3. 计算物流CCR_拦截_1的唯一值数量除以物流CCR_拦截_2的唯一值数量，得到物流CCR拦截率
+4. 输出最近一天的物流CCR拦截率和时间范围",云仓商家物流CCR明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGxeN2b,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,1270060,2023/11/10
+309,最近七天的支付到CCR反馈平均时长,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGxeN2b,"1. 定义最近七天的开始日期和结束日期
+2. 从`云仓商家物流CCR明细`表中筛选出 `统计日期` >= '{start_time}' AND `统计日期` <= '{end_time}' 的数据，并计算每天的支付-反馈时长的平均值，这里的支付-反馈时长的平均值是通过 sum ( `支付-反馈时长_1` ) / count ( distinct `order_id` ) 计算得到的
+3. 按照`统计日期`进行分组，并按照`统计日期`进行排序
+4. 如果没有找到相关数据，则输出""没有找到相关数据。""
+5. 如果找到了相关数据，则将支付-反馈时长，并输出最近七天的支付到CCR反馈平均时长以及查询的时间范围。",云仓商家物流CCR明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGxeN2b,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,1270060,2023/11/10
+311,统计日期2023年10月25日，查询首次动销在近30天的店铺数,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-dOBQpYLw,"1. 计算出2023年10月25日前30天的日期范围，得到开始日期和结束日期。
+2. 从`商家粒度数据汇总表（运营B组）`表中筛选出`首次动销日期`在开始日期和结束日期之间的指标首次动销店铺数(count(distinct `店铺id`))",商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-dOBQpYLw,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+312,"
+区分商家类型，列出2023年10月1日至最新日期的1日订单金额趋势图",,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182593301&rid=5783793&sid=2038327,,行业重点运营商品池近14天曝光商品明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182593301&rid=5783793&sid=2038327,否,电商,可视化,简单,,2023/10/31 12:00,否,1854611,2023/11/10
+313,为每个一级类目 查询一家近14天商品曝光PV 最高的店铺,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182576331&rid=5775898&sid=1854611,,行业重点运营商品池近15天曝光商品明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182576331&rid=5775898&sid=1854611,否,电商,指标查询与统计,简单,,2023/10/27 12:00,否,1854611,2023/11/10
+314,2023年10月25日，看综合价格竞争力的商品数分布占比,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182577050&rid=5754566&sid=1854611,,行业重点运营商品池近16天曝光商品明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182577050&rid=5754566&sid=1854611,否,电商,指标查询与统计,简单,,2023/10/27 12:00,否,1854611,2023/11/10
+315,"2023年10月25日，当日交易金额最多的10个商品是？
+",,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182578961&rid=5777203&sid=1854611,,行业重点运营商品池近17天曝光商品明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182578961&rid=5777203&sid=1854611,否,电商,指标查询与统计,简单,,2023/10/31 12:00,否,1854611,2023/11/10
+316,查询2023年10月25日当天上架商品的价格带分布,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-V2EZbALn,1. 从`行业重点运营商品池近14天曝光商品明细`表中筛选出`商品首次上架日期` = '2023-10-25'的数据，并按`价格带`进行分组，统计每个`价格带`的`商品ID`数量。,行业重点运营商品池近18天曝光商品明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-V2EZbALn,是,电商,指标查询与统计,简单,,2023/10/27 12:00,否,1854611,2023/11/10
+317,"2023年10月25日的新手村商家的营业状态分布
+",,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-VOoMEn2R,1. 从`商家粒度数据汇总表（运营B组）`表中筛选出 `p_date` = '2023-10-25' AND `是否为新手村商家：1是 0否（T+2指标）` = 1 的数据，并按照`营业状态`进行分组，计算每个`营业状态`下的`店铺id`的数量，得到每种`营业状态`的`商家数`,商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-VOoMEn2R,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2038327,2023/11/10
+318,上月结算GMV分层为温饱的商家，统计商家数、商家1天估算Gmv、支付gmv,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182580572&sid=2038327,,商家粒度数据汇总表（运营B组）,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182580572&sid=2038327,否,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2038327,2023/11/10
+320,最近7天支付gmv的趋势图,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182581362&rid=5783688&sid=2038327,,商家粒度数据汇总表（运营B组）,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182581362&rid=5783688&sid=2038327,否,电商,可视化,简单,,2023/10/31 12:00,否,2038327,2023/11/10
+321,看下店铺类型的分布,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182582224&sid=1556108,,商品价格力分析数据集,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182582224&sid=1556108,否,电商,指标查询与统计,简单,,2023/10/20 12:00,否,1556108,2023/11/10
+322,活动开始日期是20230919的数据中，哪个店铺爆品的商品数最多,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJWl9a2e,"1. 从`【大促活动】商品池表现`表中筛选出`活动开始日期` = '20230919'的数据
+2. 对筛选出的数据按照`店铺名称`进行分组，并计算爆品数(count ( distinct `爆品数_1` ))
+3. 按照爆品数降序排序，并取出爆品数最多的一条记录",【大促活动】商品池表现,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJWl9a2e,是,电商,指标查询与统计,简单,,2023/10/20 12:00,否,2286426,2023/11/10
+326,二级子赛道的2023年成交额累计分布,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182584505&sid=2286426,,【大促活动】商品池表现,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182584505&sid=2286426,否,电商,指标查询与统计,简单,,2023/10/27 12:00,否,2286426,2023/11/10
+327,商运通行业二级子赛道名称的成交金额分布,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJW6p7Oe,,【大促活动】商品池表现,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJW6p7Oe,否,电商,指标查询与统计,简单,,2023/10/27 12:00,否,2286426,2023/11/10
+330,商运通二级子赛道为A6-3c数码的行业在活动开始日期为20230919的活动中，表现怎么样？,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4090221234&sid=2286426,,【大促活动】商品池表现,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4090221234&sid=2286426,否,电商,模糊指标查询与统计,困难,,2023/10/27 12:00,否,2286426,2023/11/10
+331,商运通二级子赛道为A6-3C数码的行业在活动开始日期为20230919的活动中，表现怎么样？,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJW6p7Oe,1. 从`【大促活动】商品池表现`表中筛选出`商运通行业二级子赛道名称` = 'A6-3C数码' AND `活动开始日期` = '20230919'的相关指标：`活动期支付用户数`、`活动期支付订单金额`、`活动期商品曝光PV`、`活动期商品支付订单量`、`活动期商品支付GMV`、`活动期商品点击PV`(有其中一个就行),【大促活动】商品池表现,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJW6p7Oe,是,电商,指标查询与统计,困难,,2023/10/27 12:00,否,2286426,2023/11/10
+333,2023年10月22号，支付订单数环比变化了多少？,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-p2M7ZgO3,"1. 定义当前日期：'2023-10-22' 和 环比日期'2023-10-21'
+2. 从`品牌馆日报数据`表中筛选出 `p_date` = '{date}' 的数据，并计算每个日期的支付订单数（SUM ( `pay_order_cnt_1d` )）
+3. 计算两个日期的支付订单数的环比变化率，即 (count1 - count2) / count2",品牌馆日报数据,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-p2M7ZgO3,是,电商,指标查询与统计,简单,,2023/10/23 12:00,否,1748929,2023/11/10
+335,20231226支付订单数最多的top3渠道分别是什么,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182586598&rid=5777315&sid=1748929,,品牌馆日报数据,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182586598&rid=5777315&sid=1748929,否,电商,指标查询与统计,简单,,2023/10/23 12:00,否,1748929,2023/11/10
+336,品牌馆最近30天日均的订单数是多少？,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-EOVb6vOQ,"1. 获取最近30天的时间区间
+2. 从`品牌馆日报数据`表中筛选出 `p_date` 在时间区间内的数据，并计算得到总订单数（SUM(`pay_order_cnt_1d`)）
+3. 使用总订单数除以30，得到日均订单数",品牌馆日报数据,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-EOVb6vOQ,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,1748929,2023/11/10
+337,最近30天，品牌馆对什么样的人群吸引力更高？,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182587642&rid=5777385&sid=1748929,,品牌馆日报数据,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4182587642&rid=5777385&sid=1748929,否,电商,模糊指标查询与统计,中等,,2023/10/31 12:00,否,1748929,2023/11/10
+338,2023年10月26日货架分60分以上的商家有多少？,, https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-EOVbYvOQ,1. 从`货架分2.0-用于运营BD商家经营动作`表中筛选出 `p_date` = '2023-10-26' AND `货架分总分` > 60 的商家数量（count(*)）,货架分2.0-用于运营BD商家经营动作, https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-EOVbYvOQ,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2051588,2023/11/10
+339,2023年10月26日货架分60分以上的商家有多少？,,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&rid=5777409&sid=2051588,,货架分2.0-用于运营BD商家经营动作,https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&rid=5777409&sid=2051588,否,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2051588,2023/11/10
+340,如果0分负分都算有效分，2023年10月26日有多少商家是有货架分的？,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJW6R7Oe,1. 从`货架分2.0-用于运营BD商家经营动作`表中筛选出`p_date` = '2023-10-26' AND `货架分总分` >= 0的商家数量（COUNT(DISTINCT `店铺ID`)）,货架分2.0-用于运营BD商家经营动作,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-rJW6R7Oe,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2051588,2023/11/10
+341,认养一头牛旗舰店的10.25的GMV是多少,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-kLRv3ZLp,"1. 从`A组商家GMV数据天级明细`表中筛选出：`店铺名` = '认养一头牛旗舰店' AND `报表日期(支付日期)` = '2023-10-25' 的数据
+2. 计算'支付订单金额_单位元(gmv)'的总和，得到总的GMV",A组商家GMV数据天级明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-kLRv3ZLp,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+342,认养一头牛旗舰店的最近7天的GMV趋势,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-N280Pb26,"1. 使用Line函数创建一个折线图，设置图表的宽度、高度和主题
+2. 添加x轴数据，即df中的""p_date""列
+3. 添加y轴数据，即df中的""gmv""列
+4. 设置全局选项，包括标题和x轴标签的旋转角度
+5. 保存并返回图表的路径
+6. 输出认养一头牛旗舰店最近7天的GMV趋势",商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-N280Pb26,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+343,小米的最近一个月的订单数是多少,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-xJexNROP,"1. 定义了一个时间段，从当前时间的前30天开始，到当前时间结束。
+2. 从`商家粒度数据汇总表（运营B组）`表中筛选出 `主营四级类目【近60天，截止当前】` = '小米' 并且 `p_date` 在定义的时间段内的数据，计算`最近30天支付订单数`的总和，得到小米最近一个月的订单数。
+3. 输出小米最近一个月的订单数和时间范围。",商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-xJexNROP,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+344,商家类型有哪些,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-kLRv3ZLp,,商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-kLRv3ZLp,否,电商,指标查询与统计,简单,,2023/10/26 12:00,否,2038327,2023/11/10
+345,在10月25日的所有行业中，哪个行业的GMV占比最高,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-xO1vzvJe,"1. 从`商家粒度数据汇总表（运营B组）`表中筛选出`p_date` = '2023-10-25'的数据，并按`商运通行业名称`进行分组，计算每个行业的`近1天支付GMV`总和。
+2. 计算每个行业的GMV占总GMV的比例，得到新的列`gmv_ratio`。
+3. 找出`gmv_ratio`最大的行业名称，即GMV占比最高的行业，并获取其占比值。
+4. 输出在10月25日，GMV占比最高的行业名称及其占比。",商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-xO1vzvJe,是,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2038327,2023/11/10
+346,在10月25日的所有商家中，GMV排名Top3的商家是哪些,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182589776&sid=2038327,,商家粒度数据汇总表（运营B组）,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182589776&sid=2038327,否,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2038327,2023/11/10
+347,在10月25日电商各行业的GMV是多少,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4074747310&sid=2038327,,商家粒度数据汇总表（运营B组）,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4074747310&sid=2038327,否,电商,指标查询与统计,简单,,2023/10/31 12:00,否,2038327,2023/11/10
+348,商家各分型在10.25的GMV数值及占比,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182590297&sid=2038327,,商家粒度数据汇总表（运营B组）,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182590297&sid=2038327,否,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+349,最近90天动销的商家数是多少,,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182590674&sid=2038327,,商家粒度数据汇总表（运营B组）,https://data.bytedance.net/aeolus#/dataQuery?appId=555159&id=4182590674&sid=2038327,否,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+350,绑定服务商的商家数有多少,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-jLAQN5Le,"1. 从`商家粒度数据汇总表（运营B组）`表中筛选出 `是否绑定服务商(所有业绩绑定)` = 1 的数据，并计算其数量，即绑定服务商的商家数
+2. 输出绑定服务商的商家数",商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-jLAQN5Le,是,电商,指标查询与统计,简单,,2023/10/30 12:00,否,2038327,2023/11/10
+351,最近1周云仓客服处理的平均工单数,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-VOQ3oW2p,"1. 定义获取时间范围的函数，获取最近一周的时间范围
+2. 定义计算每天工单数的函数，从`云仓客服工单明细`表中筛选出`(创建)工单创建日期`在最近一周内的数据，并按`(创建)工单创建日期`分组，计算每天的工单数
+3. 定义计算平均工单数的函数，计算最近一周的平均每日工单数
+4. 定义绘制折线图的函数，使用pyecharts库绘制最近一周每日工单数的折线图
+5. 调用上述函数，获取最近一周的时间范围，计算每天的工单数，计算平均工单数，绘制折线图，并保存图表
+6. 输出最近一周云仓客服处理的平均工单数，每日工单数的折线图，以及时间范围",云仓客服工单明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-VOQ3oW2p,是,电商,指标查询与统计,简单,,2023/10/26 12:00,否,2106716,2023/11/10
+352,"
+最近一周的业务线为普通云仓的日客服工单数周同比趋势图",,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGQ04Lb,"1. 定义最近两周的时间范围
+2. 从`云仓客服工单明细`表中筛选出 `业务线(赔付用)` = '普通云仓' AND `(创建)工单创建日期` >= '{time_period[0].format('YYYY-MM-DD')}' AND `(创建)工单创建日期` <= '{time_period[1].format('YYYY-MM-DD')}' 的数据，并按照`(创建)工单创建日期`进行分组，计算每日的工单数量
+3. 计算周同比
+4. 绘制趋势图
+5. 输出最近一周的业务线为普通云仓的日客服工单数周同比趋势图",云仓客服工单明细,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-1JGQ04Lb,是,电商,可视化,简单,,2023/10/27 12:00,否,2106716,2023/11/10
+353,商品价格力最高的10个商品信息，取最新分区的数据，其中分区字段是p_date,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-e2avM7Lo,"1. 从`商品价格力分析数据集`表中筛选出最新日期(`p_date`)的数据
+2. 按照`新综合价格力`降序排序
+3. 取前10条数据
+4. 输出这10条数据的markdown格式表格",商品价格力分析数据集,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-e2avM7Lo,是,电商,指标查询与统计,简单,,2023/10/27 12:00,否,1556108,2023/11/10
+359,未来一周，十大潜力最大的三级类目,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-5JNdPzLy,"1. 从`商家粒度数据汇总表（运营B组）`表中，按照`主营三级类目【近60天，截止当前】`进行分组，计算每个类目的`近30天预估结算GMV`总和
+2. 按照`近30天预估结算GMV`总和降序排序，取前10个
+3. 输出未来一周，十大潜力最大的三级类目",商家粒度数据汇总表（运营B组）,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-5JNdPzLy,是,电商,模糊指标查询与统计,简单,,2023/10/27 12:00,否,2038327,2023/11/10
+310,最近3天逆向问题ccr在全部ccr中的占比,,"https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4157582443&sid=1270060
+
+字段名称:
+逆向问题ccr占比
+表达式:
+CAST(count(distinct case when [14日有效物流负向反馈-分类]='逆向问题' then order_id end) as Nullable(Int64))/ CAST(count(distinct case when [是否14日有效物流负向反馈]=1 then order_id end) as Nullable(Int64))
+(个人字段)",,云仓商家物流CCR明细,"https://data.bytedance.net/aeolus/#/dataQuery?appId=555159&id=4157582443&sid=1270060
+
+字段名称:
+逆向问题ccr占比
+表达式:
+CAST(count(distinct case when [14日有效物流负向反馈-分类]='逆向问题' then order_id end) as Nullable(Int64))/ CAST(count(distinct case when [是否14日有效物流负向反馈]=1 then order_id end) as Nullable(Int64))
+(个人字段)",否,电商,指标查询与统计,简单,,2023/10/23 12:00,否,1270060,2023/11/17
+354,商品价格力最高的100个商品的商品类型分布，取最新分区的数据，其中分区字段是p_date,,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-dOBQ5aLw,,商品价格力分析数据集,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-dOBQ5aLw,否,电商,指标查询与统计,简单,,2023/11/15 12:00,否,1556108,2023/11/17
+355,你的任务如下：第一步，过滤出商品价格大于10的所有商品；第二步，这些商品按照一级类目做统计；第三部，输出一级类目占比最高的10个类目。),,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-MLz56v2m,,商品价格力分析数据集,https://sophon-data-staging.bytedance.net/322/code-interpreter/sic-MLz56v2m,否,电商,指标查询与统计,中等,,2023/11/15 12:00,否,1556108,2023/11/17
+41,最近7天小端的线索量多少了,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3922005533&sid=722567,1. 从`线索宽表指标明细`表筛选出：`来源类型` = '小端' 且 `统计日期`或`线索产生日期` 为最近7天，范围内的线索量(`COUNT(DISTINCT `associate_num`)`),线索宽表指标明细,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3922005533&sid=722567,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,722567,2023/11/10
+42,已到期经纪人包内人均房源认领量对比,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&rid=5490896&sid=1684506,"1. 从`权益包明细`表筛选出：`是否已到期` = 1 AND `是否当月到期` = 1 的数据
+2. 计算每个经纪人的平均房源认领量，方法是：求和`avg_claim_house_cnt`，然后除以`package_id`的唯一数量
+3. 按`经纪人id`分组
+4. 输出已到期且当月到期的经纪人包内人均房源认领量",权益包明细,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&rid=5490896&sid=1684506,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1684506,2023/11/10
+43,描述一下最近小端线索率的趋势,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3923211120&sid=1430465,1. 从`CPT城市DAU与线索`表中筛选出： `date` 在最近时间范围内的小端线索率(`sum((xd_clue_cnt))/sum((dau))`),CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3923211120&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+45,提升哪个城市的小端线索率对全国线索率的提升最有效,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3922997263&sid=1430465,"1. 从`CPT城市DAU与线索`表中按照`城市名称`进行分组，计算每种城市类型的`小端dau`和`小端线索量`的总和。
+2. 计算每种城市类型的小端线索率，即`小端线索量`除以`小端dau`。
+3. 计算全体城市的总DAU。
+4. 找出对全国线索率的提升最有效的城市。",CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3922997263&sid=1430465,是,幸福里,综合分析,中等,,2023/9/25 12:00,否,1430465,2023/11/10
+46,各大区的在职经纪人人数,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3922865402&sid=1576475,"
+1. 在`经纪人核心指标(全量版_f项目)`表，筛选处 `是否离职` = 0，按`大区名称`分组，计算每个大区的经纪人人数(count(distinct [`经纪人id`]))",经纪人核心指标(全量版_f项目),https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3922865402&sid=1576475,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1576475,2023/11/10
+47,最近7天的不含抢客获电率怎么样,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3922731559&sid=722567,"1. 计算最近7天的开始时间和结束时间
+2. 从 `线索宽表指标明细`筛选出 `统计日期`或`线索产生` >= '{开始时间}' AND `统计日期` <= '{结束时间}' 指标(`COUNT(DISTINCT `get_phone_rc_num`))/(COUNT(DISTINCT `rc_num`)`)",线索宽表指标明细,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3922731559&sid=722567,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,722567,2023/11/10
+48,小端昨天的日活是多少,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3958961528&sid=1430465,"
+1. 从目标数据表`CPT城市DAU与线索`中获取数据
+2.  筛选 `date`为昨天
+3. 计算小端日活(`sum(`小端dau`)`）",CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3958961528&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+49,重点九城昨天的整体日活，新房日活，二手房日活，租房日活,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3924280602&sid=1430465,"1. 从目标数据表：'CPT城市DAU与线索`
+2. 筛选出 `是否重点9城` = 1 AND `date`为昨天的'小端dau'，'小端新房dau'，'小端二手房dau'，'小端租房dau'的总和，分别作为整体日活，新房日活，二手房日活，租房日活",CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3924280602&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+50,昨天直营城市的新房日活有多少,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3924661042&sid=1430465,1. 在`CPT城市DAU与线索`表中筛选出：`是否是直营城市` = '直营' AND `date` 为昨天的小端新房日活（`sum(`小端新房dau`)`）数据,CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3924661042&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+51,按天查看，北京近七日的线索率、DAU、入库线索量,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3924664140&rid=1296232&sid=302321,"1. 获取最近7天的开始时间和结束时间
+2. 从数据表`f100_app2c_kpi_v3_without_vid(did粒度)`筛选出 `city` = '北京' AND `p_date` >= '{开始时间}' AND `p_date` <= '{结束时间}' 的dau(`count(distinct `dau_1`)`)，线索率(`sum(lead_cnt)/count(distinct `线索率_1`)`)，入库线索量(`入库线索量`)",f100_app2c_kpi_v3_without_vid(did粒度),https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=3924664140&rid=1296232&sid=302321,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,302321,2023/11/10
+52,画一下最近7天分城市类型的小端日活折线图,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3959007724&sid=1430465,"1. 计算最近7天的开始日期和结束日期
+2. 在`CPT城市DAU与线索`表中筛选出 `date` >= '{最近7天开始日期}' AND `date` <= '{最近7天结束日期}'  按'城市类型'和'date'分组，计算每组的小端dau总和（sum(`小端dau`)）
+3. 绘制折线图，横轴为日期，纵轴为小端日活，每个城市类型一条折线",CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3959007724&sid=1430465,是,幸福里,可视化,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+53,计算一下新房CPT城市同时也是直营城市的昨日日活,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3959018957&sid=1430465,"
+1. 从 `CPT城市DAU与线索`筛选处 `date`为昨天 AND `是否新房CPT城市` = '新房CPT' AND `是否是直营城市` = '直营' 的`小端dau`的总和",CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3959018957&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+54,计算一下最近7天日均dau,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3924777523&sid=1430465,"1. 计算最近7天的开始时间和结束时间
+2. 从`CPT城市DAU与线索`筛选出  `date` >= '{开始时间}' AND `date` <= '{结束时间}' 的 '小端dau' 总和
+4. 按'date'分组
+5. 计算最近7天的日均DAU，即 '小端dau' 总和除以天数",CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=3924777523&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/9/25 12:00,否,1430465,2023/11/10
+60,计算一下开城时间是今年4月份并且是新房CPT城市，同时也是直营城市的昨日日活,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4042250596&sid=1430465,1. 从`CPT城市DAU与线索`表中筛选出 `date` = '{yesterday}' AND `是否新房CPT城市` = '新房CPT' AND `是否是直营城市` = '直营' AND `开城时间` LIKE '2023/04%' 的小端dau的总和,CPT城市DAU与线索,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4042250596&sid=1430465,是,幸福里,指标查询与统计,简单,,2023/10/20 12:00,否,1430465,2023/11/10
+62,统计下本月成交单量,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1001403&rid=2394302&sid=1124433,"1. 获取当前月份的开始和结束日期
+2. 从`【平台认证】Room成交综合数据`表中筛选出 `统计日期` 在当月的数据，并计算出成交单量（`sum(cont_sign_cnt)`）",【平台认证】Room成交综合数据,https://data.bytedance.net/aeolus/#/dataQuery?appId=1001403&rid=2394302&sid=1124433,是,幸福里,指标查询与统计,简单,,2023/10/20 12:00,否,1119727,2023/11/10
+63,获取业务类型是租房的在线房源量,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4028037227&rid=3010778&sid=1230119,1. 从`cpt_小区房源数据`表中筛选出`业务类型` = 3 AND `房源状态` = 0的在线房源量（`count(*)`）,cpt_小区房源数据,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4028037227&rid=3010778&sid=1230119,是,幸福里,指标查询与统计,简单,,2023/10/20 12:00,否,1230119,2023/11/10
+65,帮我查一下昨天搜索无结果的搜索请求数和用户数,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4052735826&sid=1009129,1. 从`搜索全明细（新）`表中筛选出 `搜索是否无结果-新` = 1 AND `p_date` 为昨天的搜索请求数（`count(distinct `搜索id`)`）和用户数（`count(distinct `搜索用户量_1`)`）,搜索全明细（新）,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4052735826&sid=1009129,是,幸福里,指标查询与统计,简单,,2023/10/23 12:00,否,1009129,2023/11/10
+66,帮我查一下昨天有im线索点击的搜索请求数和对应的用户量,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4024382792&sid=1009129,1. 从`搜索全明细（新）`表中筛选出 `p_date` 为昨天 AND `是否有im线索点击` = 1 的数据，计算搜索次数（`count(distinct search_id)`）和搜索用户量（`count(distinct `搜索用户量_1`)`）,搜索全明细（新）,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4024382792&sid=1009129,是,幸福里,指标查询与统计,简单,,2023/10/24 12:00,否,1009129,2023/11/10
+67,帮我查一下昨天选择了北京的用户发起的搜索请求数，其中被点击了的搜索请求数，以及对应的有线索点击的搜索请求数,,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-xO1961Oe,"1. 定义昨天的开始和结束时间
+2. 从`搜索全明细（新）`表中筛选出 `选择城市名称` = '北京' AND `p_date` >= '{昨天开始时间}' AND `p_date` <= '{昨天结束时间}' 的搜索次数（count(distinct `search_id`)），被点击的搜索次数（count(distinct IF(`搜索是否有点击（search_id整体）`=1, `search_id`, NULL))），有线索点击的搜索次数（count(distinct IF(`搜索是否有点击（search_id整体）`=1, `search_id`, NULL))）",搜索全明细（新）,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-xO1961Oe,是,幸福里,指标查询与统计,简单,,2023/10/24 12:00,否,1009129,2023/11/10
+68,上周小端dau整体变化如何,,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-N28R9pO6,"1. 定义了昨天的开始和结束时间
+2. 从`f100_app2c_kpi_v3_without_vid(did粒度)`表中筛选出 `选择城市名称` = '北京' AND `p_date` >= '{昨天的开始时间}' AND `p_date` <= '{昨天的结束时间}' 的数据
+3. 计算出昨天在北京的搜索次数，被点击的搜索次数，有线索点击的搜索次数
+4. 输出昨天在北京的用户发起的搜索请求数，其中被点击了的搜索请求数，有线索点击的搜索请求数，以及时间范围。",f100_app2c_kpi_v3_without_vid(did粒度),https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-N28R9pO6,是,幸福里,指标查询与统计,简单,,2023/10/24 12:00,否,302321,2023/11/10
+69,统计总分发量，分发日期限定为10月份,,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-kLR6gqLp,"1. 定义了2023年10月份的开始和结束时间
+2. 从`saas系统线索分发转化信息`表中筛选出 `分发日期` >= '2023-10-01' AND `分发日期` <= '2023-10-31' 的数据，并计算`总分发量_1`的唯一值数量，即总分发量
+3. 输出10月份的总分发量和时间范围",saas系统线索分发转化信息,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-kLR6gqLp,是,幸福里,指标查询与统计,简单,,2023/11/8 12:00,否,1072153,2023/11/10
+70,帮我计算一下昨天房源有点击的搜索请求数和用户数,,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-52Z6zD2z,"1. 获取昨天的日期
+2. 从`搜索全明细（新）`表中筛选出 `p_date` = '昨天的日期' AND `房源是否有点击` = 1 的数据，计算搜索次数（通过计算不同的`search_id`的数量）和搜索用户量（通过计算不同的`搜索用户量_1`的数量）
+3. 输出昨天房源有点击的搜索请求数和用户数，以及时间范围。",搜索全明细（新）,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-52Z6zD2z,是,幸福里,指标查询与统计,简单,,2023/11/9 12:00,否,1009129,2023/11/10
+71,帮我查一下昨天搜索类型为enter的卡片曝光量、卡片点击量和线索点击数据,,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-pOKAD42a,"1. 获取昨天的日期
+2. 从`搜索全明细（新）`表中筛选出 `搜索类型-新` = 'enter' AND `p_date` = '{yesterday}' 的数据
+3. 计算`人房-卡片曝光量_1`的唯一值数量作为`卡片曝光量`
+4. 计算`人房-卡片点击量_1`的唯一值数量作为`卡片点击量`
+5. 计算`人房-线索点击量_1`，`人房-线索点击量_2`，`人房-线索点击量_3`的唯一值数量之和作为`线索点击量`
+6. 输出结果，并附上时间范围为昨天的日期",搜索全明细（新）,https://sophon-data-staging.bytedance.net/297/code-interpreter/sic-pOKAD42a,是,幸福里,指标查询与统计,简单,,2023/11/10 12:00,否,1009129,2023/11/10
+201,计算近14天首启类型为Push的用户数量,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156289180&sid=302321,,f100_app2c_kpi_v3_without_vid(did粒度),https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156289180&sid=302321,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,302321,2023/11/17
+202,查看小程序线索量,,"https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156338193&sid=722567
+备注：全量表取 p_date 为最近一天，统计日期为业务日期",,线索宽表指标明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156338193&sid=722567,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,722567,2023/11/17
+203,10月CPT 一次性收入多少？,,"https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156359218&sid=932796
+备注：月累计表，取每月最后一天即可",,cpt日报_月累计,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156359218&sid=932796,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,932796,2023/11/17
+204,上周直播pgc组件线索量是多少,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4157159183&rid=4700208&sid=2103198,,PGC组件用户消费直播数据,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4157159183&rid=4700208&sid=2103198,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,2103198,2023/11/17
+205,上周抖音房产视频vv是多少,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4157167310&rid=4158485&sid=1874849,,【抖音房产】视频标签指标,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4157167310&rid=4158485&sid=1874849,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,1874849,2023/11/17
+206,最近30天分发量,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4157000337&sid=302321,,f100_app2c_kpi_v3_without_vid(did粒度),https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4157000337&sid=302321,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,302321,2023/11/17
+207,分大区名称看一下首页商业化流量占比,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156748038&rid=3553053&sid=1669603,,金选商业化流量（曝光）监控,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156748038&rid=3553053&sid=1669603,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,1669603,2023/11/17
+208,首页Feed流中商业化流量占比,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156880761&rid=3553053&sid=1669603,,金选商业化流量（曝光）监控,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156880761&rid=3553053&sid=1669603,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,1669603,2023/11/17
+211,成都最近30天的线索量,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156902556&sid=722567,,线索宽表指标明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&id=4156902556&sid=722567,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,722567,2023/11/17
+212,近30天搜索渗透率趋势,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&rid=1848581,,流量_C端_dau_渗透率分析,https://data.bytedance.net/aeolus/#/dataQuery?appId=1370&rid=1848581,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,893769,2023/11/17
+72,获取城市名称为潍坊的已配包经纪人数及日总连接量,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4027973869&rid=2844822&sid=847554,,经纪人核心指标[废弃，请申请 经纪人核心指标(全量版_f项目)],https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4027973869&rid=2844822&sid=847554,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,847554,2023/11/10
+73,最近一个月内，经纪公司城市名称为福州的新房带看数是多少,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4026435889&rid=3389628&sid=1507894,,新房经纪人项目指标汇总表da,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4026435889&rid=3389628&sid=1507894,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,1507894,2023/11/10
+74,直营带看经纪人数,,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4026528827&rid=3155056&sid=1370649,,经纪人宽表-新房,https://data.bytedance.net/aeolus#/dataQuery?appId=1370&id=4026528827&rid=3155056&sid=1370649,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,1370649,2023/11/10
+75,城市群拜访的门店量,,https://data.bytedance.net/aeolus#/dataQuery?appId=555477&id=4138048373&rid=5073925&sid=2125723,,BD行程明细数据集,https://data.bytedance.net/aeolus#/dataQuery?appId=555477&id=4138048373&rid=5073925&sid=2125723,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,2125723,2023/11/10
+76,统计最近一天房源任务量,,https://data.bytedance.net/aeolus/#/dataQuery?appId=1001403&rid=3070631&sid=1444742,,【Room】dwd层维护分任务明细,https://data.bytedance.net/aeolus/#/dataQuery?appId=1001403&rid=3070631&sid=1444742,否,幸福里,指标查询与统计,简单,,2023/11/16 12:00,否,1444742,2023/11/10
